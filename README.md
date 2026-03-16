@@ -1,3 +1,14 @@
+---
+title: DataSup Analytics
+emoji: 🎓
+colorFrom: blue
+colorTo: indigo
+sdk: streamlit
+sdk_version: 1.35.0
+app_file: dashboard/app.py
+pinned: false
+---
+
 # DataSup Analytics
 
 **Observatoire analytique de l'enseignement supérieur français**
