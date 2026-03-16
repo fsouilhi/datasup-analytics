@@ -119,5 +119,5 @@ Données open data — licences Etalab et ODbL.
 
 ## Auteure
 
-**Fatima Souilhi** — L3 Informatique, Nantes Université  
+**Fatima Souilhi** 
 [github.com/fsouilhi](https://github.com/fsouilhi)
