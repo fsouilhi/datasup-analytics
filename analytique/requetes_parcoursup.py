@@ -15,7 +15,7 @@ journal = logging.getLogger(__name__)
 
 
 def classement_selectivite(annee: int = 2023, domaine: str = None,
-                            limite: int = 20) -> pd.DataFrame:
+                           limite: int = 20) -> pd.DataFrame:
     """
     Classement des formations par sélectivité (taux d'accès)
     avec rang calculé par fonction de fenêtrage RANK().
@@ -106,7 +106,7 @@ def evolution_admissions_par_domaine() -> pd.DataFrame:
 
 
 def top_formations_selectivite_par_academie(annee: int = 2023,
-                                             top_n: int = 3) -> pd.DataFrame:
+                                            top_n: int = 3) -> pd.DataFrame:
     """
     Top N formations les plus sélectives par académie.
     Utilise ROW_NUMBER() pour sélectionner les N premières par groupe.
@@ -200,9 +200,9 @@ def stats_globales(annee: int = 2023) -> dict:
     with obtenir_moteur().connect() as conn:
         row = conn.execute(text(requete), {"annee": annee}).fetchone()
         return {
-            "nb_formations":      int(row.nb_formations or 0),
-            "nb_etablissements":  int(row.nb_etablissements or 0),
-            "total_voeux":        int(row.total_voeux or 0),
-            "total_admis":        int(row.total_admis or 0),
-            "taux_acces_moyen":   float(row.taux_acces_moyen or 0),
+            "nb_formations": int(row.nb_formations or 0),
+            "nb_etablissements": int(row.nb_etablissements or 0),
+            "total_voeux": int(row.total_voeux or 0),
+            "total_admis": int(row.total_admis or 0),
+            "taux_acces_moyen": float(row.taux_acces_moyen or 0),
         }

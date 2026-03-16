@@ -22,6 +22,7 @@ journal = logging.getLogger(__name__)
 # Construction de l'URL de connexion selon la cible
 # ============================================================
 
+
 def _construire_url() -> str:
     """
     Construit l'URL de connexion SQLAlchemy à partir des
@@ -36,17 +37,17 @@ def _construire_url() -> str:
     cible = os.getenv("ENV_CIBLE", "local").lower()
 
     if cible == "supabase":
-        hote      = os.getenv("SUPABASE_HOST")
-        port      = os.getenv("SUPABASE_PORT", "5432")
-        base      = os.getenv("SUPABASE_BASE", "postgres")
+        hote = os.getenv("SUPABASE_HOST")
+        port = os.getenv("SUPABASE_PORT", "5432")
+        base = os.getenv("SUPABASE_BASE", "postgres")
         utilisateur = os.getenv("SUPABASE_UTILISATEUR", "postgres")
-        mdp       = os.getenv("SUPABASE_MOT_DE_PASSE")
+        mdp = os.getenv("SUPABASE_MOT_DE_PASSE")
     else:
-        hote      = os.getenv("PG_LOCAL_HOST", "localhost")
-        port      = os.getenv("PG_LOCAL_PORT", "5432")
-        base      = os.getenv("PG_LOCAL_BASE", "datasup")
+        hote = os.getenv("PG_LOCAL_HOST", "localhost")
+        port = os.getenv("PG_LOCAL_PORT", "5432")
+        base = os.getenv("PG_LOCAL_BASE", "datasup")
         utilisateur = os.getenv("PG_LOCAL_UTILISATEUR", "postgres")
-        mdp       = os.getenv("PG_LOCAL_MOT_DE_PASSE")
+        mdp = os.getenv("PG_LOCAL_MOT_DE_PASSE")
 
     if not mdp:
         raise ValueError(
@@ -65,6 +66,7 @@ def _construire_url() -> str:
 # ============================================================
 
 _moteur = None
+
 
 def obtenir_moteur():
     """

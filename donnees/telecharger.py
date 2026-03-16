@@ -13,7 +13,6 @@ Usage :
     python donnees/telecharger.py
 """
 
-import os
 import requests
 import logging
 from pathlib import Path
@@ -138,7 +137,6 @@ def telecharger_fichier(url: str, destination: Path) -> bool:
     try:
         with requests.get(url, stream=True, timeout=60) as reponse:
             reponse.raise_for_status()
-            taille_totale = int(reponse.headers.get("content-length", 0))
             taille_telechargee = 0
 
             with open(destination, "wb") as fichier:

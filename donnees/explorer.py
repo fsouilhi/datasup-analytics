@@ -12,7 +12,6 @@ Usage :
     python donnees/explorer.py
 """
 
-import sys
 import logging
 from pathlib import Path
 

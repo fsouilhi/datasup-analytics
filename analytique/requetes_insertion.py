@@ -135,8 +135,8 @@ def stats_insertion_globales() -> dict:
     with obtenir_moteur().connect() as conn:
         row = conn.execute(text(requete)).fetchone()
         return {
-            "nb_mesures":         int(row.nb_mesures or 0),
-            "taux_emploi_moyen":  float(row.taux_emploi_moyen or 0),
+            "nb_mesures": int(row.nb_mesures or 0),
+            "taux_emploi_moyen": float(row.taux_emploi_moyen or 0),
             "salaire_median_moyen": float(row.salaire_median_moyen or 0),
-            "pct_cadre_moyen":    float(row.pct_cadre_moyen or 0),
+            "pct_cadre_moyen": float(row.pct_cadre_moyen or 0),
         }
