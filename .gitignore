@@ -1,0 +1,8 @@
+donnees/brutes/
+donnees/traitees/
+.env
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+*.log

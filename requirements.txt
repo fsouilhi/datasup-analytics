@@ -1,0 +1,22 @@
+# ============================================================
+# DataSup Analytics — Dépendances Python
+# ============================================================
+
+# Données & ETL
+pandas==2.2.2
+numpy==1.26.4
+requests==2.32.3
+sqlalchemy==2.0.30
+psycopg2-binary==2.9.9
+python-dotenv==1.0.1
+
+# Dashboard
+streamlit==1.35.0
+plotly==5.22.0
+
+# Tests
+pytest==8.2.2
+pytest-cov==5.0.0
+
+# Qualité du code
+flake8==7.0.0

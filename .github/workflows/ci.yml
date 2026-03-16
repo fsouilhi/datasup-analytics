@@ -1,0 +1,63 @@
+# ============================================================
+# DataSup Analytics — Pipeline CI GitHub Actions
+# Déclenché sur push et pull request vers main
+# ============================================================
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  qualite-et-tests:
+    name: Qualité & Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: datasup_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v4
+
+      - name: Installation de Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Installation des dépendances
+        run: pip install -r requirements.txt
+
+      - name: Vérification style (flake8)
+        run: flake8 etl/ analytique/ donnees/ --max-line-length=100
+
+      - name: Initialisation du schéma de test
+        env:
+          PGPASSWORD: test
+        run: psql -h localhost -U postgres -d datasup_test -f bdd/schema.sql
+
+      - name: Exécution des tests
+        env:
+          ENV_CIBLE: local
+          PG_LOCAL_HOST: localhost
+          PG_LOCAL_PORT: 5432
+          PG_LOCAL_BASE: datasup_test
+          PG_LOCAL_UTILISATEUR: postgres
+          PG_LOCAL_MOT_DE_PASSE: test
+        run: pytest tests/ -v --cov=etl --cov=analytique --cov-report=term-missing
