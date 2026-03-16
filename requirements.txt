@@ -4,10 +4,10 @@
 
 # Données & ETL
 pandas>=2.1.0
-numpy>=1.24.0
+numpy>=1.24.0,<2.0.0
 requests==2.32.3
 sqlalchemy==2.0.30
-psycopg2-binary==2.9.9
+psycopg2-binary>=2.9.9
 python-dotenv==1.0.1
 
 # Dashboard
