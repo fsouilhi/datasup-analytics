@@ -15,6 +15,13 @@ pinned: false
 
 Pipeline ETL complet, modélisation PostgreSQL relationnelle, requêtes SQL analytiques avancées (fenêtrage, CTEs, agrégations) et dashboard interactif Streamlit/Plotly.
 
+[![CI](https://github.com/fsouilhi/datasup-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/fsouilhi/datasup-analytics/actions)
+
+## Liens
+
+- **Repo GitHub** : [github.com/fsouilhi/datasup-analytics](https://github.com/fsouilhi/datasup-analytics)
+- **Dashboard en ligne** : [huggingface.co/spaces/fsouilhi/datasup-analytics](https://huggingface.co/spaces/fsouilhi/datasup-analytics)
+
 ---
 
 ## Aperçu
@@ -47,8 +54,7 @@ Pipeline ETL complet, modélisation PostgreSQL relationnelle, requêtes SQL anal
 ## Architecture
 ```
 datasup-analytics/
-├── bdd/
-│   └── schema.sql              # DDL PostgreSQL — 6 tables, contraintes, index
+├── bdd/schema.sql              # DDL PostgreSQL — 6 tables, contraintes, index
 ├── donnees/
 │   ├── telecharger.py          # Téléchargement automatique data.gouv.fr / MESR
 │   └── explorer.py             # Exploration et validation des datasets
@@ -92,25 +98,13 @@ etablissement ──< formation >── domaine
 ```bash
 git clone https://github.com/fsouilhi/datasup-analytics.git
 cd datasup-analytics
-
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-
 cp .env.example .env
-# Renseigner PG_LOCAL_MOT_DE_PASSE dans .env
-
 sudo -u postgres createdb datasup
 sudo -u postgres psql -d datasup -f bdd/schema.sql
-```
-
-**Chargement des données :**
-```bash
 python donnees/telecharger.py
 python -m etl.pipeline
-```
-
-**Lancement du dashboard :**
-```bash
 PYTHONPATH=$(pwd) streamlit run dashboard/app.py
 ```
 
@@ -124,11 +118,9 @@ PYTHONPATH=$(pwd) streamlit run dashboard/app.py
 | Insertion pro Master | [MESR](https://data.enseignementsup-recherche.gouv.fr) | 19 603 lignes |
 | Insertion pro Licence Pro | [MESR](https://data.enseignementsup-recherche.gouv.fr) | 11 780 lignes |
 
-Données open data — licences Etalab et ODbL.
-
 ---
 
 ## Auteure
 
-**Fatima Souilhi** 
+**Fatima Souilhi** — L3 Informatique, Nantes Université  
 [github.com/fsouilhi](https://github.com/fsouilhi)
