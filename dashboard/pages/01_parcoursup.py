@@ -75,6 +75,7 @@ if not df_evol.empty:
 st.divider()
 st.subheader(f"Top {top_n} formations les plus selectives ({annee})")
 df_sel = classement_selectivite(annee=annee, limite=top_n)
+    df_sel = df_sel[df_sel['taux_acces'] > 0]
 if not df_sel.empty:
     fig5 = px.bar(df_sel, x="taux_acces", y="formation", orientation="h",
         color="taux_acces", color_continuous_scale="Blues",
@@ -83,7 +84,13 @@ if not df_sel.empty:
         title=f"Formations avec le taux d'acces le plus bas ({annee})")
     fig5.update_layout(paper_bgcolor="#0f172a",plot_bgcolor="#1e293b",font_color="#cbd5e1",height=600,coloraxis_showscale=False)
     st.plotly_chart(fig5, use_container_width=True)
-    st.dataframe(df_sel[["etablissement","academie","formation","niveau","taux_acces","nb_voeux","nb_admis"]].rename(
-        columns={"etablissement":"Etablissement","academie":"Academie","formation":"Formation",
-                 "niveau":"Niveau","taux_acces":"Taux (%)","nb_voeux":"Voeux","nb_admis":"Admis"}),
-        use_container_width=True, hide_index=True)
+    st.dataframe(
+        df_sel[["formation","niveau","taux_acces","nb_voeux","nb_admis"]].rename(
+            columns={"formation":"Formation","niveau":"Niveau",
+                     "taux_acces":"Taux (%)","nb_voeux":"Voeux","nb_admis":"Admis"}),
+        use_container_width=True, hide_index=True,
+        column_config={
+            "Taux (%)": st.column_config.ProgressColumn(min_value=0, max_value=100, format="%.1f%%"),
+            "Formation": st.column_config.TextColumn(width="large"),
+        }
+    )
