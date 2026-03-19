@@ -44,4 +44,4 @@ with col_b:
 | Insertion Licence Pro | MESR | 2010-2020 |""")
 
 st.divider()
-st.caption("DataSup Analytics · Fatima Souilhi · L3 Informatique, Nantes Universite · github.com/fsouilhi")
+st.caption("DataSup Analytics · Fatima Souilhi · github.com/fsouilhi")
