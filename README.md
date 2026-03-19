@@ -1,13 +1,3 @@
----
-title: DataSup Analytics
-emoji: 🎓
-colorFrom: blue
-colorTo: indigo
-sdk: streamlit
-sdk_version: 1.35.0
-app_file: dashboard/app.py
-pinned: false
----
 
 # DataSup Analytics
 
@@ -122,5 +112,5 @@ PYTHONPATH=$(pwd) streamlit run dashboard/app.py
 
 ## Auteure
 
-**Fatima Souilhi** — L3 Informatique, Nantes Université  
+**Fatima Souilhi**
 [github.com/fsouilhi](https://github.com/fsouilhi)
