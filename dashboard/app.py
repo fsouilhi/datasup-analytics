@@ -15,7 +15,7 @@ p,li{color:#cbd5e1}
 </style>""", unsafe_allow_html=True)
 
 st.title("DataSup Analytics")
-st.markdown("**Observatoire analytique de l'enseignement superieur francais** — donnees Parcoursup 2021-2023 et insertion professionnelle (MESRI)")
+st.markdown("**Observatoire analytique de l'enseignement superieur francais** — - donnees Parcoursup 2021-2023 et insertion professionnelle (MESRI)")
 st.divider()
 
 stats_ps = stats_globales(2023)
