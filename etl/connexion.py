@@ -2,6 +2,8 @@
 ============================================================
 DataSup Analytics — Gestion de la connexion à PostgreSQL
 Supporte deux cibles : local et Supabase (variable ENV_CIBLE)
+Utilise psycopg2.connect(**params) pour éviter les problèmes
+avec les caractères spéciaux dans le mot de passe.
 ============================================================
 """
 
@@ -9,79 +11,67 @@ import os
 import logging
 from contextlib import contextmanager
 
-from urllib.parse import quote_plus
+import psycopg2
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import OperationalError
 
 load_dotenv()
 
 journal = logging.getLogger(__name__)
 
-# ============================================================
-# Construction de l'URL de connexion selon la cible
-# ============================================================
-
-
-def _construire_url() -> str:
-    """
-    Construit l'URL de connexion SQLAlchemy à partir des
-    variables d'environnement. La cible (local ou supabase)
-    est déterminée par la variable ENV_CIBLE.
-
-    Retourne
-    --------
-    str
-        URL de connexion au format postgresql+psycopg2://...
-    """
-    cible = os.getenv("ENV_CIBLE", "local").lower()
-
-    if cible == "supabase":
-        hote = os.getenv("SUPABASE_HOST")
-        port = os.getenv("SUPABASE_PORT", "5432")
-        base = os.getenv("SUPABASE_BASE", "postgres")
-        utilisateur = os.getenv("SUPABASE_UTILISATEUR", "postgres")
-        mdp = os.getenv("SUPABASE_MOT_DE_PASSE")
-    else:
-        hote = os.getenv("PG_LOCAL_HOST", "localhost")
-        port = os.getenv("PG_LOCAL_PORT", "5432")
-        base = os.getenv("PG_LOCAL_BASE", "datasup")
-        utilisateur = os.getenv("PG_LOCAL_UTILISATEUR", "postgres")
-        mdp = os.getenv("PG_LOCAL_MOT_DE_PASSE")
-
-    if not mdp:
-        raise ValueError(
-            f"Mot de passe PostgreSQL manquant pour la cible '{cible}'. "
-            "Vérifier le fichier .env."
-        )
-
-    return (
-        f"postgresql+psycopg2://{utilisateur}:{quote_plus(mdp)}"
-        f"@{hote}:{port}/{base}"
-    )
-
-
-# ============================================================
-# Moteur SQLAlchemy (singleton)
-# ============================================================
-
 _moteur = None
 
 
+def _params_connexion() -> dict:
+    cible = os.getenv("ENV_CIBLE", "local").lower()
+    if cible == "supabase":
+        mdp = os.getenv("SUPABASE_MOT_DE_PASSE")
+        if not mdp:
+            raise ValueError("SUPABASE_MOT_DE_PASSE manquant.")
+        return {
+            "host":     os.getenv("SUPABASE_HOST"),
+            "port":     int(os.getenv("SUPABASE_PORT", "5432")),
+            "dbname":   os.getenv("SUPABASE_BASE", "postgres"),
+            "user":     os.getenv("SUPABASE_UTILISATEUR", "postgres"),
+            "password": mdp,
+        }
+    else:
+        mdp = os.getenv("PG_LOCAL_MOT_DE_PASSE")
+        if not mdp:
+            raise ValueError("PG_LOCAL_MOT_DE_PASSE manquant.")
+        return {
+            "host":     os.getenv("PG_LOCAL_HOST", "localhost"),
+            "port":     int(os.getenv("PG_LOCAL_PORT", "5432")),
+            "dbname":   os.getenv("PG_LOCAL_BASE", "datasup"),
+            "user":     os.getenv("PG_LOCAL_UTILISATEUR", "postgres"),
+            "password": mdp,
+        }
+
+
+def _construire_url() -> str:
+    from urllib.parse import quote_plus
+    p = _params_connexion()
+    return (
+        f"postgresql+psycopg2://{p['user']}:{quote_plus(p['password'])}"
+        f"@{p['host']}:{p['port']}/{p['dbname']}"
+    )
+
+
 def obtenir_moteur():
-    """
-    Retourne le moteur SQLAlchemy (singleton).
-    Crée le moteur à la première invocation.
-    """
     global _moteur
     if _moteur is None:
-        url = _construire_url()
+        params = _params_connexion()
+
+        def creator():
+            return psycopg2.connect(**params)
+
         _moteur = create_engine(
-            url,
+            "postgresql+psycopg2://",
+            creator=creator,
             pool_size=5,
             max_overflow=10,
-            pool_pre_ping=True,   # Vérifie la connexion avant utilisation
+            pool_pre_ping=True,
             echo=False,
         )
         journal.info(
@@ -92,35 +82,18 @@ def obtenir_moteur():
 
 
 def tester_connexion() -> bool:
-    """
-    Vérifie que la connexion à la base de données est opérationnelle.
-
-    Retourne
-    --------
-    bool
-        True si la connexion réussit, False sinon.
-    """
     try:
         with obtenir_moteur().connect() as conn:
             resultat = conn.execute(text("SELECT version()")).scalar()
             journal.info("Connexion OK — %s", resultat)
             return True
-    except OperationalError as e:
+    except Exception as e:
         journal.error("Connexion échouée : %s", e)
         return False
 
 
 @contextmanager
 def session_bdd():
-    """
-    Gestionnaire de contexte pour une session SQLAlchemy.
-    Gère automatiquement le commit/rollback et la fermeture.
-
-    Usage
-    -----
-    with session_bdd() as session:
-        session.execute(text("SELECT 1"))
-    """
     Session = sessionmaker(bind=obtenir_moteur())
     session = Session()
     try:
