@@ -182,5 +182,5 @@ class TestConnexion:
         c._moteur = None
 
         from etl.connexion import _construire_url
-        with pytest.raises(ValueError, match="Mot de passe"):
+        with pytest.raises(ValueError, match="manquant"):
             _construire_url()
