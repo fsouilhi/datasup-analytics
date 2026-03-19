@@ -75,7 +75,7 @@ if not df_evol.empty:
 st.divider()
 st.subheader(f"Top {top_n} formations les plus selectives ({annee})")
 df_sel = classement_selectivite(annee=annee, limite=top_n)
-    df_sel = df_sel[df_sel['taux_acces'] > 0]
+df_sel = df_sel[df_sel['taux_acces'] > 0]
 if not df_sel.empty:
     fig5 = px.bar(df_sel, x="taux_acces", y="formation", orientation="h",
         color="taux_acces", color_continuous_scale="Blues",
