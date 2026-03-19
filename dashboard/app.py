@@ -37,7 +37,7 @@ Utilisez le menu lateral pour acceder aux modules :
 - **Insertion** - salaires, taux d'emploi, score composite""")
 with col_b:
     st.markdown("""### Sources
-| Dataset | Source | Perimetre |
+| Dataset | Source | Période |
 |---|---|---|
 | Parcoursup | data.gouv.fr | 2021-2023 |
 | Insertion Master | MESR | 2010-2020 |
