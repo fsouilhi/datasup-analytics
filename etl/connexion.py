@@ -9,6 +9,7 @@ import os
 import logging
 from contextlib import contextmanager
 
+from urllib.parse import quote_plus
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
@@ -56,7 +57,7 @@ def _construire_url() -> str:
         )
 
     return (
-        f"postgresql+psycopg2://{utilisateur}:{mdp}"
+        f"postgresql+psycopg2://{utilisateur}:{quote_plus(mdp)}"
         f"@{hote}:{port}/{base}"
     )
 
