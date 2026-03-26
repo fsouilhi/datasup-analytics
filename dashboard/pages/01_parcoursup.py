@@ -63,10 +63,10 @@ if not df_evol.empty:
             markers=True, color_discrete_sequence=PALETTE,
             labels={"taux_acces_moyen":"Taux d'acces (%)","annee":"Annee"},
             title="Evolution du taux d'acces moyen")
-        fig4.add_hline(y=30, line_dash='dot', line_color='rgba(255,255,255,0.2)')
         fig4.update_layout(
             xaxis=dict(tickvals=[2021,2022,2023]),
             yaxis=dict(range=[30,90]))
+        fig4.add_hline(y=30, line_dash='dot', line_color='rgba(255,255,255,0.3)', annotation_text='30%')
         st.plotly_chart(fig4, use_container_width=True)
 
 st.divider()
