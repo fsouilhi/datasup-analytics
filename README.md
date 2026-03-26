@@ -27,8 +27,6 @@ Pipeline ETL complet, modélisation PostgreSQL relationnelle, requêtes SQL anal
 
 ## Aperçu
 
-![Dashboard — Page d'accueil](docs/images/01_home.png)
-
 | Indicateur | Valeur |
 |---|---|
 | Formations analysées | 7 317 |
@@ -41,9 +39,9 @@ Pipeline ETL complet, modélisation PostgreSQL relationnelle, requêtes SQL anal
 
 ## Screenshots
 
-| Analyse Parcoursup | Insertion professionnelle |
-|---|---|
-| ![Évolution des admissions 2021-2023](docs/images/02_parcoursup_evolution.png) | ![Score composite d'insertion](docs/images/03_insertion_score.png) |
+| Dashboard | Analyse Parcoursup | Insertion professionnelle |
+|---|---|---|
+| ![Page d'accueil](docs/images/01_home.png) | ![Évolution des admissions 2021-2023](docs/images/02_parcoursup_evolution.png) | ![Score composite d'insertion](docs/images/03_insertion_score.png) |
 
 ---
 
