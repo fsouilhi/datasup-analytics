@@ -46,6 +46,7 @@ def classement_selectivite(annee: int = 2023, domaine: str = None,
         JOIN domaine       d ON d.id_domaine  = f.id_domaine
         JOIN campagne      c ON c.id_campagne = p.id_campagne
         WHERE p.taux_acces IS NOT NULL
+          AND p.taux_acces > 0
           AND p.nb_voeux   > 10
           AND c.annee      = :annee
           {filtre_domaine}
