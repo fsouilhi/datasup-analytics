@@ -49,6 +49,8 @@ def classement_selectivite(annee: int = 2023, domaine: str = None,
           AND p.taux_acces > 0
           AND p.nb_voeux   > 10
           AND f.libelle != 'Non renseigne'
+          AND d.libelle != 'Autre'
+          AND f.niveau != 'Autre'
           AND c.annee      = :annee
           {filtre_domaine}
         ORDER BY p.taux_acces ASC
