@@ -1,3 +1,4 @@
+cat > ~/Master/datasup-analytics/README.md << 'READMEEOF'
 ---
 title: DataSup Analytics
 emoji: 🎓
@@ -27,13 +28,15 @@ Pipeline ETL complet, modélisation PostgreSQL relationnelle, requêtes SQL anal
 
 ## Aperçu
 
+![Dashboard DataSup Analytics](docs/images/01_home.png)
+
 | Indicateur | Valeur |
 |---|---|
 | Formations analysées | 7 317 |
 | Établissements | 4 057 |
 | Vœux Parcoursup 2023 | 6 816 365 |
 | Admis 2023 | 320 668 |
-| Mesures d'insertion pro | 1 314 |
+| Mesures d'insertion pro | 1 723 |
 
 ---
 
@@ -49,6 +52,16 @@ Pipeline ETL complet, modélisation PostgreSQL relationnelle, requêtes SQL anal
 | Tests | pytest, pytest-cov |
 | CI/CD | GitHub Actions |
 | Déploiement | HuggingFace Spaces |
+
+---
+
+## Screenshots
+
+### Analyse Parcoursup — Évolution des admissions 2021-2023
+![Évolution des admissions par domaine](docs/images/02_parcoursup_evolution.png)
+
+### Insertion professionnelle — Score composite par formation
+![Score composite d'insertion](docs/images/03_insertion_score.png)
 
 ---
 
@@ -125,3 +138,4 @@ PYTHONPATH=$(pwd) streamlit run dashboard/app.py
 
 **Fatima Souilhi**
 [github.com/fsouilhi](https://github.com/fsouilhi)
+READMEEOF
