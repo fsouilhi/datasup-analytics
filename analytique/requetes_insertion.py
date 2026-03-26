@@ -59,7 +59,7 @@ def evolution_insertion_par_domaine() -> pd.DataFrame:
             JOIN formation      f ON f.id_form     = i.id_form
             JOIN domaine        d ON d.id_domaine  = f.id_domaine
             JOIN campagne       c ON c.id_campagne = i.id_campagne
-            WHERE i.nb_repondants >= 20
+            WHERE i.nb_repondants >= 5
             GROUP BY d.libelle, c.annee
         )
         SELECT
