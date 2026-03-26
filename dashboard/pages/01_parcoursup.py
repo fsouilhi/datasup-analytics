@@ -9,12 +9,7 @@ from analytique.requetes_parcoursup import (
 st.set_page_config(page_title="Parcoursup - DataSup", layout="wide")
 PALETTE = px.colors.qualitative.Set2
 
-st.markdown("""<style>
-.stApp{background-color:#0f172a}
-[data-testid="stSidebar"]{background-color:#1e293b}
-h1,h2,h3{color:#f1f5f9!important}
-p{color:#cbd5e1}
-</style>""", unsafe_allow_html=True)
+
 
 st.title("Analyse Parcoursup 2021-2023")
 st.divider()
@@ -34,7 +29,7 @@ if not df_profil.empty:
             color="niveau", color_discrete_sequence=PALETTE,
             labels={"moy_taux_acces":"Taux d'acces moyen (%)","niveau":"Niveau"},
             title=f"Taux d'acces moyen par niveau ({annee})")
-        fig.update_layout(paper_bgcolor="#0f172a",plot_bgcolor="#1e293b",font_color="#cbd5e1",showlegend=False)
+        fig.update_layout(showlegend=False)
         st.plotly_chart(fig, use_container_width=True)
     with col2:
         labels_cat = ["% Femmes","% Boursiers","% Mention TB"]
@@ -43,7 +38,7 @@ if not df_profil.empty:
             vals = [row["moy_pct_femmes"] or 0, row["moy_pct_boursiers"] or 0, row["moy_pct_mention_tb"] or 0]
             fig2.add_trace(go.Scatterpolar(r=vals+[vals[0]], theta=labels_cat+[labels_cat[0]], fill="toself", name=row["niveau"]))
         fig2.update_layout(polar=dict(bgcolor="#1e293b",radialaxis=dict(visible=True,range=[0,100],color="#94a3b8")),
-            paper_bgcolor="#0f172a",font_color="#cbd5e1",title=f"Profil des admis ({annee})",legend=dict(bgcolor="#1e293b"))
+            title=f"Profil des admis ({annee})",legend=dict(bgcolor="#1e293b"))
         st.plotly_chart(fig2, use_container_width=True)
     st.dataframe(df_profil.rename(columns={"niveau":"Niveau","nb_formations":"Formations",
         "moy_taux_acces":"Taux acces (%)","moy_pct_femmes":"% Femmes",
@@ -60,7 +55,7 @@ if not df_evol.empty:
             markers=True, color_discrete_sequence=PALETTE,
             labels={"total_admis":"Total admis","annee":"Annee"},
             title="Total admis par domaine")
-        fig3.update_layout(paper_bgcolor="#0f172a",plot_bgcolor="#1e293b",font_color="#cbd5e1",
+        fig3.update_layout(
             xaxis=dict(tickvals=[2021,2022,2023]))
         st.plotly_chart(fig3, use_container_width=True)
     with col4:
@@ -68,7 +63,7 @@ if not df_evol.empty:
             markers=True, color_discrete_sequence=PALETTE,
             labels={"taux_acces_moyen":"Taux d'acces (%)","annee":"Annee"},
             title="Evolution du taux d'acces moyen")
-        fig4.update_layout(paper_bgcolor="#0f172a",plot_bgcolor="#1e293b",font_color="#cbd5e1",
+        fig4.update_layout(
             xaxis=dict(tickvals=[2021,2022,2023]))
         st.plotly_chart(fig4, use_container_width=True)
 
@@ -82,7 +77,7 @@ if not df_sel.empty:
         hover_data=["etablissement","academie","nb_voeux","nb_admis"],
         labels={"taux_acces":"Taux d'acces (%)","formation":"Formation"},
         title=f"Formations avec le taux d'acces le plus bas ({annee})")
-    fig5.update_layout(paper_bgcolor="#0f172a",plot_bgcolor="#1e293b",font_color="#cbd5e1",height=600,coloraxis_showscale=False)
+    fig5.update_layout(height=600,coloraxis_showscale=False)
     st.plotly_chart(fig5, use_container_width=True)
     st.dataframe(
         df_sel[["formation","niveau","taux_acces","nb_voeux","nb_admis"]].rename(

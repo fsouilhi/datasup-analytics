@@ -8,12 +8,7 @@ from analytique.requetes_insertion import (
 st.set_page_config(page_title="Insertion - DataSup", layout="wide")
 PALETTE = px.colors.qualitative.Set2
 
-st.markdown("""<style>
-.stApp{background-color:#0f172a}
-[data-testid="stSidebar"]{background-color:#1e293b}
-h1,h2,h3{color:#f1f5f9!important}
-p{color:#cbd5e1}
-</style>""", unsafe_allow_html=True)
+
 
 st.title("Insertion professionnelle")
 st.divider()
@@ -38,7 +33,7 @@ if not df_sal.empty:
             labels={"salaire_median_moyen":"Salaire median (EUR/mois)","domaine":"Domaine"},
             title="Salaire net median par domaine")
         fig1.update_traces(texttemplate="%{text:.0f} EUR", textposition="outside")
-        fig1.update_layout(paper_bgcolor="#0f172a",plot_bgcolor="#1e293b",font_color="#cbd5e1",height=400)
+        fig1.update_layout(height=400)
         st.plotly_chart(fig1, use_container_width=True)
     with col6:
         fig2 = px.bar(df_sal.sort_values("pct_cadre_moyen"),
@@ -48,7 +43,7 @@ if not df_sal.empty:
             labels={"pct_cadre_moyen":"% Emplois cadre/PI","domaine":"Domaine"},
             title="Part des emplois cadre")
         fig2.update_traces(texttemplate="%{text:.1f} %", textposition="outside")
-        fig2.update_layout(paper_bgcolor="#0f172a",plot_bgcolor="#1e293b",font_color="#cbd5e1",height=400)
+        fig2.update_layout(height=400)
         st.plotly_chart(fig2, use_container_width=True)
     st.dataframe(
         df_sal[["domaine","secteur","nb_formations","salaire_median_moyen","pct_cadre_moyen","pct_temps_plein_moyen"]].rename(
@@ -96,7 +91,7 @@ if not df_top.empty:
         hover_data=["etablissement","taux_emploi_18m","salaire_median","pct_emploi_cadre"],
         labels={"score_composite":"Score","formation":"Formation"},
         title="Meilleures formations selon le score composite")
-    fig5.update_layout(paper_bgcolor="#0f172a",plot_bgcolor="#1e293b",font_color="#cbd5e1",height=500)
+    fig5.update_layout(height=500)
     st.plotly_chart(fig5, use_container_width=True)
     st.dataframe(
         df_top[["formation","domaine","taux_emploi_18m","salaire_median","pct_emploi_cadre","score_composite"]].rename(
