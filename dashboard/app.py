@@ -6,8 +6,8 @@ st.markdown("""<style>
 [data-testid="stMetric"]{border:1px solid rgba(100,116,139,0.3);border-radius:8px;padding:16px}
 [data-testid="stMetricValue"]{color:#60a5fa!important;font-size:1.8rem!important;font-weight:700!important}
 table{width:100%}
-thead tr th{color:inherit!important;opacity:1!important}
-tbody tr td{color:inherit!important;opacity:1!important}
+thead tr th{color:#60a5fa!important;opacity:1!important}
+tbody tr td{color:#94a3b8!important;opacity:1!important}
 </style>""", unsafe_allow_html=True)
 st.title("DataSup Analytics")
 st.markdown("**Observatoire analytique de l'enseignement superieur francais** - donnees Parcoursup 2021-2023 et insertion professionnelle (MESRI)")
