@@ -90,7 +90,7 @@ def top_formations_insertion(top_n: int = 15) -> pd.DataFrame:
                salaire_median, pct_emploi_cadre, score_composite
     """
     requete = """
-        WITH top AS (
+        WITH scored AS (
             SELECT DISTINCT ON (e.nom, f.libelle)
                 LEFT(e.nom, 55)        AS etablissement,
                 LEFT(e.nom, 40) || ' — ' || LEFT(f.libelle, 40) AS formation,
@@ -115,8 +115,15 @@ def top_formations_insertion(top_n: int = 15) -> pd.DataFrame:
               AND i.salaire_median   IS NOT NULL
               AND d.libelle != 'Autre'
             ORDER BY e.nom, f.libelle, score_composite DESC
+        ),
+        ranked AS (
+            SELECT *, ROW_NUMBER() OVER (PARTITION BY domaine ORDER BY score_composite DESC) as rn
+            FROM scored
         )
-        SELECT * FROM top
+        SELECT etablissement, formation, domaine, niveau, taux_emploi_18m,
+               salaire_median, pct_emploi_cadre, pct_temps_plein, nb_repondants, score_composite
+        FROM ranked
+        WHERE rn <= 3
         ORDER BY score_composite DESC
         LIMIT :top_n
     """
