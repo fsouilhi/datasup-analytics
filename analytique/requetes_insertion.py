@@ -90,28 +90,33 @@ def top_formations_insertion(top_n: int = 15) -> pd.DataFrame:
                salaire_median, pct_emploi_cadre, score_composite
     """
     requete = """
-        SELECT
-            LEFT(e.nom, 55)        AS etablissement,
-            LEFT(f.libelle, 70)    AS formation,
-            d.libelle              AS domaine,
-            f.niveau,
-            i.taux_emploi_18m,
-            i.salaire_median,
-            i.pct_emploi_cadre,
-            i.pct_temps_plein,
-            i.nb_repondants,
-            ROUND((
-                0.4 * COALESCE(i.taux_emploi_18m, 0)
-              + 0.3 * LEAST(COALESCE(i.salaire_median, 0) / 25.0, 100)
-              + 0.3 * COALESCE(i.pct_emploi_cadre, 0)
-            )::numeric, 1)         AS score_composite
-        FROM insertion_pro  i
-        JOIN formation      f ON f.id_form    = i.id_form
-        JOIN etablissement  e ON e.id_etab    = f.id_etab
-        JOIN domaine        d ON d.id_domaine = f.id_domaine
-        WHERE i.nb_repondants  >= 30
-          AND i.taux_emploi_18m IS NOT NULL
-          AND i.salaire_median   IS NOT NULL
+        WITH top AS (
+            SELECT DISTINCT ON (e.nom, f.libelle)
+                LEFT(e.nom, 55)        AS etablissement,
+                LEFT(e.nom, 40) || ' — ' || LEFT(f.libelle, 40) AS formation,
+                d.libelle              AS domaine,
+                f.niveau,
+                i.taux_emploi_18m,
+                i.salaire_median,
+                i.pct_emploi_cadre,
+                i.pct_temps_plein,
+                i.nb_repondants,
+                ROUND((
+                    0.4 * COALESCE(i.taux_emploi_18m, 0)
+                  + 0.3 * LEAST(COALESCE(i.salaire_median, 0) / 25.0, 100)
+                  + 0.3 * COALESCE(i.pct_emploi_cadre, 0)
+                )::numeric, 1) AS score_composite
+            FROM insertion_pro  i
+            JOIN formation      f ON f.id_form    = i.id_form
+            JOIN etablissement  e ON e.id_etab    = f.id_etab
+            JOIN domaine        d ON d.id_domaine = f.id_domaine
+            WHERE i.nb_repondants  >= 30
+              AND i.taux_emploi_18m IS NOT NULL
+              AND i.salaire_median   IS NOT NULL
+              AND d.libelle != 'Autre'
+            ORDER BY e.nom, f.libelle, score_composite DESC
+        )
+        SELECT * FROM top
         ORDER BY score_composite DESC
         LIMIT :top_n
     """
