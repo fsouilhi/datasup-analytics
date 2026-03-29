@@ -18,10 +18,9 @@ Pipeline ETL complet, modélisation PostgreSQL relationnelle, requêtes SQL anal
 
 [![CI](https://github.com/fsouilhi/datasup-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/fsouilhi/datasup-analytics/actions)
 
-## Liens
+## Lien
 
-- **Repo GitHub** : [github.com/fsouilhi/datasup-analytics](https://github.com/fsouilhi/datasup-analytics)
-- **Dashboard en ligne** : [huggingface.co/spaces/fsouilhi/datasup-analytics](https://huggingface.co/spaces/fsouilhi/datasup-analytics)
+* **Dashboard en ligne** : [datasup-analytics.hf.space](https://fsouilhi-datasup-analytics.hf.space)
 
 ---
 
